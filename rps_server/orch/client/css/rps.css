@@ -1,0 +1,28 @@
+* {
+  transition: 2s;
+}
+
+.name {
+  font-size: 4em;
+}
+
+.selected {
+   width: 220px;
+   height: 110px;
+}
+
+button[value="0"], #oPick[value="0"]{
+  background: url('../images/rock.png') no-repeat center;
+  width: 200px;
+  height: 100px;
+}
+button[value="1"], #oPick[value="1"]{
+  background: url('../images/paper.png') no-repeat center;
+  width: 200px;
+  height: 100px;
+}
+button[value="2"], #oPick[value="2"]{
+  background: url('../images/scissors.png') no-repeat center;
+  width: 200px;
+  height: 100px;
+}
