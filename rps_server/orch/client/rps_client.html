@@ -4,22 +4,23 @@
     <title>Rock Paper Scissors</title>
     <script src="lib/js/jquery-1.11.1.min.js"></script>
     <script src="js/rps.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/rps.css"></link>
   </head>
   <body>
     <input type=text id='host' value="http://10.121.245.6:8080/" onchange="H=host.value;"/>
-    <div id="round">
+    Round <div id="round">
     </div>
     <div id="myArea">
-      <div id="myName"></div>
+      <div class="name" id="myName"></div>
       <div id="myWinOrLoss"> </div>
       <div id="myPick" >
-         <button id="rock" onclick="selected(0);">Rock</button>
-         <button id="paper" onclick="selected(1);">Paper</button>
-         <button id="scissors" onclick="selected(2);">Scissors</button>
+         <button id="rock" onclick="selected(0, event);" value='0'></button>
+         <button id="paper" onclick="selected(1, event);" value='1'></button>
+         <button id="scissors" onclick="selected(2, event);" value='2'></button>
       </div>
     </div>
     <div id="opponentArea">
-      <div id="oName"></div>
+      <div class="name" id="oName"></div>
       <div id="oWinOrLoss"> </div>
       <div id="oPick"></div>
     </div>

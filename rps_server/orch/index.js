@@ -1,5 +1,7 @@
 var express = require('express');
 var request=require('request');
+var connect = require('connect');
+var serveStatic = require('serve-static');
 
 // Constants
 var ORCHPORT=8080;
@@ -32,7 +34,13 @@ var PC = {
 
 var app = express();
 
-app.all('*', function(res, req, next) {
+app.use(serveStatic('/src/client'));
+
+//app.get('/client', function(req, res) {
+//  res.sendfile(__dirname + '/client/rps_client.html');
+//});
+
+app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();

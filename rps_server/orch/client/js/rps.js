@@ -51,8 +51,9 @@ function getWhatsNext() {
 	      oName.innerText = Opponent.name;
 	      myWinOrLoss.innerText = "";
 	      oWinOrLoss.innerText = "";
-	      oPick.innerText = "";
+	      oPick.setAttribute("value", "");
 	      $(myPick).hide();
+              $("#myPick button").removeClass("selected");
 	      readyForMyMove();
 	   } else {
 	      startLoop();
@@ -73,7 +74,8 @@ function readyForMyMove() {
    $(myPick).show();
 }
 
-function selected(mv) {
+function selected(mv, event) {
+  $(event.target).addClass("selected");
   callJson(ContainerURI + "/myMove?mv=" + mv, function(data) { 
     console.log("sent move\n");
     getOpponentsMove();
@@ -83,7 +85,7 @@ function selected(mv) {
 function getOpponentsMove() {
    callJson(ContainerURI + "/getOpponentsMove", function(data) {
       if (data != null && data.opponentsMove != null && data.opponentsMove != -1) {
-         oPick.innerHTML = data.opponentsMove; 
+         oPick.setAttribute("value", data.opponentsMove); 
 	 didIWin();
       } else {
          setTimeout(getOpponentsMove, 500);
@@ -114,3 +116,4 @@ function didIWin() {
       }
    });
 }
+

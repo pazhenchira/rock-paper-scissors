@@ -27,6 +27,12 @@ app.get('/', function(req, res) {
   res.json({msg: 'Hello world...'}); 
 });
 
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.get('/register', function(req, res) {
   Me = req.param('name', null);
   MeId = req.param('id', null);

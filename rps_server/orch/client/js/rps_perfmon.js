@@ -9,6 +9,10 @@ function getPC() {
 	callJson(H + "/PC", showPC);
 }
 
+function cleanUp() {
+	callJson(H + "/cleanUp", showPC);
+}
+
 function callJson(u, f) {
   $.getJSON(u, function() {console.log("success ", u);})
    .done(f)
