@@ -1,0 +1,31 @@
+var H="http://10.121.245.6:8080"
+$.support.cors = true; // very important for IE, else all connections will fail with No Transport
+var Me = null;
+var Opponent = null;
+
+$(getPC); // call when document is ready
+
+function getPC() {
+	callJson(H + "/PC", showPC);
+}
+
+function callJson(u, f) {
+  $.getJSON(u, function() {console.log("success ", u);})
+   .done(f)
+   .fail(jsonFailed);
+}
+
+function jsonFailed(jqxhr, textStatus, error) {console.log("Failed.. ", jqxhr, textStatus, error);}
+
+function showPC(data) {
+  if (data != null && data.PC != null) {
+	  ActiveContainers.innerText = data.PC.numActiveContainers;
+	  MaxContainers.innerText = data.PC.numMaxContainers;
+	  MinTime.innerText = data.PC.minTimeToStartContainer;
+	  MaxTime.innerText = data.PC.maxTimeToStartContainer;
+	  setTimeout(getPC, 500);
+  } else {
+	  ActiveContainers.innerText = "Couldn't connect";
+  }
+}
+

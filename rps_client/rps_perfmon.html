@@ -1,0 +1,31 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <title>Rock Paper Scissors Perf Monitor</title>
+    <script src="lib/js/jquery-1.11.1.min.js"></script>
+    <script src="js/rps_perfmon.js"></script>
+  </head>
+  <body>
+    <input type=text id='host' value="http://10.121.245.6:8080/" onchange="H=host.value;"/>
+    <div id="Perf Counters">
+	    <div id="ActiveContainersDiv">
+		    <label>Active Containers</label>
+		    <label id="ActiveContainers"></label>
+	    </div>
+	    <div id="MaxContainersDiv">
+		    <label>Max Containers</label>
+		    <label id="MaxContainers"></label>
+	    </div>
+	    <div id="MinTimeDiv">
+		    <label>Min time to create Containers</label>
+		    <label id="MinTime"></label>
+		    <label>seconds</label>
+	    </div>
+	    <div id="MaxTimeDiv">
+		    <label>Max time to create Containers</label>
+		    <label id="MaxTime"></label>
+		    <label>seconds</label>
+	    </div>
+    </div>
+  </body>
+</html>
