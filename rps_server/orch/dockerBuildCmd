@@ -1,0 +1,2 @@
+sudo docker build -t mathewj/explore:rps_orch .
+sudo docker run -p 8080:8080 -d -t mathewj/explore:rps_orch 
