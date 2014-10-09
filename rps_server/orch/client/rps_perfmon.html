@@ -4,12 +4,13 @@
     <title>Rock Paper Scissors Perf Monitor</title>
     <script src="lib/js/jquery-1.11.1.min.js"></script>
     <script src="js/rps_perfmon.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/rps_perfmon.css"></link>
   </head>
   <body>
     <input type=text id='host' value="http://10.121.245.6:8080/" onchange="H=host.value;"/>
     <button onclick="cleanUp();">Reset Game</button>
-    <div id="Perf Counters">
-	    <div id="ActiveContainersDiv">
+    <div id="PerfCounters" class="divTable">
+<!--	    <div id="ActiveContainersDiv">
 		    <label>Active Containers</label>
 		    <label id="ActiveContainers"></label>
 	    </div>
@@ -27,6 +28,7 @@
 		    <label id="MaxTime"></label>
 		    <label>ms</label>
 	    </div>
+-->
     </div>
   </body>
 </html>

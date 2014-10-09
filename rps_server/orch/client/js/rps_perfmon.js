@@ -21,15 +21,47 @@ function callJson(u, f) {
 
 function jsonFailed(jqxhr, textStatus, error) {console.log("Failed.. ", jqxhr, textStatus, error);}
 
+
+var FirstTime = true;
+
 function showPC(data) {
-  if (data != null && data.PC != null) {
-	  ActiveContainers.innerText = data.PC.numActiveContainers;
-	  MaxContainers.innerText = data.PC.numMaxContainers;
-	  MinTime.innerText = data.PC.minTimeToStartContainer;
-	  MaxTime.innerText = data.PC.maxTimeToStartContainer;
-	  setTimeout(getPC, 500);
+  if (data != null && data.PCTable != null) {
+    if (FirstTime) {
+      createTable(data.PCTable);
+      FirstTime = false;
+    }
+    for (var i in data.PCTable) {
+	  $("#ActiveContainers" + mapToId[i]).text(data.PCTable[i].numActiveContainers);
+	  $("#MaxContainers" + mapToId[i]).text(data.PCTable[i].numMaxContainers);
+	  $("#MinTime" + mapToId[i]).text(data.PCTable[i].minTimeToStartContainer);
+	  $("#MaxTime" + mapToId[i]).text(data.PCTable[i].maxTimeToStartContainer);
+    }
+    setTimeout(getPC, 500);
   } else {
-	  ActiveContainers.innerText = "Couldn't connect";
+	  $("#PerfCounters").text("Couldn't connect");
   }
 }
 
+var mapToId = {};
+var inc = 1;
+
+function createTable(PCTable) {
+   
+  var r = $("#PerfCounters").append("<div id='divHeader' class='divRow'></div>");
+// headers
+     r.append("<div class='divCell'>Host Name</div>");
+     r.append("<div class='divCell'>ActiveContainers</div>");
+     r.append("<div class='divCell'>MaxContainers</div>");
+     r.append("<div class='divCell'>MinTime</div>");
+     r.append("<div class='divCell'>MaxTime</div>");
+   for (var i in PCTable) {
+     var id = "id" + inc++;
+     mapToId[i] = id;
+     var d = $("#PerfCounters").append("<div id='div" + id + "' class='divRow'></div>");
+     d.append("<div id='hostName" + id + "' class='divCell'>" + (i == "0" ? "All" : i) + "</div>");
+     d.append("<div id='ActiveContainers" + id + "' class='divCell'></div>");
+     d.append("<div id='MaxContainers" + id + "' class='divCell'></div>");
+     d.append("<div id='MinTime" + id + "' class='divCell'></div>");
+     d.append("<div id='MaxTime" + id + "' class='divCell'></div>");
+  }
+}

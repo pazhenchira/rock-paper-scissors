@@ -7,7 +7,9 @@ var serveStatic = require('serve-static');
 var ORCHPORT=8080;
 var ORCHHOST="http://10.121.245.6";
 //var HOSTS=["http://10.121.245.6:4342", "http://10.121.246.222:4342"];
-var HOSTS=["http://10.121.245.6:4342", "http://10.121.245.6:4342"];
+//var HOSTS=["http://10.121.245.6:4342", "http://10.121.245.6:4342"];
+//var HOSTS=["http://10.121.245.6:4342", "http://10.176.140.144:4342", "http://10.192.178.122:4342"];
+var HOSTS=["http://10.121.245.6:4342", "http://10.192.179.5:4342"];
 var IMAGE="mathewj/explore:rps_player";
 var REGISTRATION_TIMEOUT=10000;
 
@@ -21,7 +23,18 @@ var Round = 1;
 var ICMap=[];
 
 // Perf counters
-var PC = {
+var PCTable = {}
+
+for (var i = 0; i < HOSTS.length; i++) {
+  PCTable[HOSTS[i]] = {
+    numActiveContainers: 0,
+    numMaxContainers: 0,
+    minTimeToStartContainer: 0,
+    maxTimeToStartContainer: 0 
+  };
+}
+
+PCTable["0"] = { // one for the totals
   numActiveContainers: 0,
   numMaxContainers: 0,
   minTimeToStartContainer: 0,
@@ -73,8 +86,10 @@ app.get('/', function(req, res) {
      var startTime = new Date().getTime();
      request(createContainer, function(err, response, body) {
 	console.log("Create Container body " + body);
-	PC.numActiveContainers++;
-	PC.numMaxContainers++;
+	PCTable["0"].numActiveContainers++;
+	PCTable["0"].numMaxContainers++;
+	PCTable[HOSTS[currH]].numActiveContainers++;
+	PCTable[HOSTS[currH]].numMaxContainers++;
 	if (!err && response.statusCode == 201) {
 	  var info = body; // used JSON: true in the request, so the response has been parsed as JSON
 	  var startContainer = {
@@ -140,7 +155,7 @@ app.get('/cleanUp', function(req, res) {
 });
 
 app.get('/PC', function(req, res) {
-   res.json({PC: PC});
+   res.json({PCTable: PCTable});
 });
 
 function removeUser(i, immediate) {
@@ -151,8 +166,10 @@ function removeUser(i, immediate) {
    delete Users[i];
    setTimeout(function() {
       request({method: "DELETE", uri: uri}, function(err, response, body) {
-        if (PC.numActiveContainers != 0)
-	  PC.numActiveContainers--;
+        if (PCTable["0"].numActiveContainers != 0)
+	  PCTable["0"].numActiveContainers--;
+        if (PCTable[u.HostContainer].numActiveContainers != 0)
+	  PCTable[u.HostContainer].numActiveContainers--;
         console.log("Delete User " + err + "response: " + response + "body: " + body);
       }); 
     }, immediate ? 0 : 3000);
@@ -215,10 +232,14 @@ app.get('/iAmReady', function(req, resC) {
     var startTime = ICMap[randId].startTime;
     var endTime = new Date().getTime();
     var timeToStart = endTime - startTime;
-    if (timeToStart > PC.maxTimeToStartContainer)
-       PC.maxTimeToStartContainer = timeToStart;
-    if (PC.minTimeToStartContainer == 0 || timeToStart < PC.minTimeToStartContainer)
-       PC.minTimeToStartContainer = timeToStart;
+    if (timeToStart > PCTable["0"].maxTimeToStartContainer)
+       PCTable["0"].maxTimeToStartContainer = timeToStart;
+    if (PCTable["0"].minTimeToStartContainer == 0 || timeToStart < PCTable["0"].minTimeToStartContainer)
+       PCTable["0"].minTimeToStartContainer = timeToStart;
+    if (timeToStart > PCTable[obj.HostContainer].maxTimeToStartContainer)
+       PCTable[obj.HostContainer].maxTimeToStartContainer = timeToStart;
+    if (PCTable[obj.HostContainer].minTimeToStartContainer == 0 || timeToStart < PCTable[obj.HostContainer].minTimeToStartContainer)
+       PCTable[obj.HostContainer].minTimeToStartContainer = timeToStart;
 
     delete ICMap[randId];
 

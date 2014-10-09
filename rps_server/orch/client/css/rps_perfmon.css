@@ -1,0 +1,16 @@
+.divTable {
+  display: table;
+  width: auto;
+  border: 1px solid blue;
+}
+
+.divRow {
+  display: table-row;
+  width: auto;
+}
+
+.divCell {
+  float: left; /* for buggy browers */
+  display: table-column;
+  width: 200px;
+}
