@@ -23,23 +23,7 @@ var Round = 1;
 var ICMap=[];
 
 // Perf counters
-var PCTable = {}
-
-for (var i = 0; i < HOSTS.length; i++) {
-  PCTable[HOSTS[i]] = {
-    numActiveContainers: 0,
-    numMaxContainers: 0,
-    minTimeToStartContainer: 0,
-    maxTimeToStartContainer: 0 
-  };
-}
-
-PCTable["0"] = { // one for the totals
-  numActiveContainers: 0,
-  numMaxContainers: 0,
-  minTimeToStartContainer: 0,
-  maxTimeToStartContainer: 0 
-};
+var PCTable = {};
 
 
 //App
@@ -314,12 +298,23 @@ function init() {
   Round=1;
   ActiveGamers = 0;
   ActiveGames = 0;
-  PC = {
+  PCTable = {};
+  for (var i = 0; i < HOSTS.length; i++) {
+    PCTable[HOSTS[i]] = {
+      numActiveContainers: 0,
+      numMaxContainers: 0,
+      minTimeToStartContainer: 0,
+      maxTimeToStartContainer: 0 
+    };
+  }
+
+  PCTable["0"] = { // one for the totals
     numActiveContainers: 0,
     numMaxContainers: 0,
     minTimeToStartContainer: 0,
     maxTimeToStartContainer: 0 
   };
+
   setTimeout(startGame, REGISTRATION_TIMEOUT);
 }
 
