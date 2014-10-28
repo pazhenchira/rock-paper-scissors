@@ -1,4 +1,4 @@
-var H="http://10.121.245.6:8080"
+var H="http://10.121.244.233:8080"
 $.support.cors = true; // very important for IE, else all connections will fail with No Transport
 var Registered = false;
 var Round = 0;

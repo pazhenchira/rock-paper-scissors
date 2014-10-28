@@ -5,7 +5,8 @@ var serveStatic = require('serve-static');
 
 // Constants
 var ORCHPORT=8080;
-var ORCHHOST="http://10.121.245.6";
+//var ORCHHOST="http://10.121.245.6";
+var ORCHHOST="http://10.121.244.233";
 //var HOSTS=["http://10.121.245.6:4342", "http://10.121.246.222:4342"];
 //var HOSTS=["http://10.121.245.6:4342", "http://10.121.245.6:4342"];
 //var HOSTS=["http://10.121.245.6:4342", "http://10.176.140.144:4342", "http://10.192.178.122:4342"];
